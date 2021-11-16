@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+  <div class="main-content">
+    <div class="content-header mt-3 mb-3">
+      <h4>Examination Data</h4>
+    </div>
+      <div class="main-header mt-4 mb-4">
+        <div class="row">
+          <div class="col-md-6">
+            <form action="" method="POST">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Name" name="keyword">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <a href="{{ url_for('admin.examination_add') }}" class="btn btn-primary float-right">Add New</a>
+          </div>
+        </div>
+      </div>
+    {% for message in get_flashed_messages() %}
+        <span class="text-danger">{{ message }}</span>
+    {% endfor %}
+    <table class="table table-bordered">
+        <thead class="">
+            <tr>
+                <td>No</td>
+                <td>name</td>
+                <td>division</td>
+                <td>level</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in examinations %}
+            <tr>
+                <td>{{ loop.index + start }}</td>
+                <td>{{ exam.name }}</td>
+                <td>{{ exam.division.name }}</td>
+                <td>{{ exam.level.name }}</td>
+                <td>
+                    {% if current_user.role_id == 1 %}
+                      <a href="{{ url_for('admin.examination_edit', id=exam.id) }}" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-pencil"></i></a>
+                      <a href="" class="btn btn-danger btn-sm delete-dialog" target-id="{{ exam.id }}" title="Delete"><i class="fa fa-trash"></i></a>
+                    {% endif %}
+                    <a href="{{ url_for('admin.question_pdf_data', id=exam.id) }}" class="btn feniksPurple btn-sm text-white" title="Upload"><i class="fa fa-list-alt"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              {% if prev_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              {% endif %}
+              {% for num in range(num_pages) %}
+                <li class="page-item"><a class="page-link" href="data?page={{num+1}}">{{num+1}}</a></li>
+              {% endfor %}
+              {% if next_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

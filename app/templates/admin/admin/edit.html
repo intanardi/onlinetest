@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %} Edit Feniks User {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+        <div class="col-6"><h3>Edit Admin</h3></div>
+        <div class="col-6 float-right"><button class="btn btn-secondary backButton float-right">Back</button></div>
+    </div>
+    <div class="main-header mt-3 mb-3">
+        {% for message in get_flashed_messages() %}
+            <span class="text-danger">{{ message }}</span>
+        {% endfor %}
+        <hr>
+    </div>
+    <form action="" method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fullname">Name</label>
+                    <input type="text" class="form-control" name="fullname" value="{{ user.fullname }}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" value="{{ user.email }}">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" value="{{ user.username }}">
+                </div>
+                <div class="form-group">
+                    <label for="address">address</label>
+                    <input type="text" class="form-control" name="address" value="{{ user.address }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" name="phone" value="{{ user.phone }}">
+                </div>
+                <div class="form-group">
+                    <label for="address">Division</label>
+                    <select class="form-control" name="division">
+                        {% for division in divisions %}
+                            <option value="{{ division.id }}" {% if user.division_id == division.id %} selected="selected" {% endif %}>{{ division.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Level</label>
+                    <select class="form-control" name="level">
+                        {% for level in levels %}
+                            <option value="{{ level.id }}" {% if user.level_id == level.id %} selected="selected" {% endif %}>{{ level.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Role</label>
+                    <select class="form-control" name="roles" {% if user.role_id == 1 and current_user.role_id != 1  %} disabled {% endif %}>
+                        <option value="2" {% if user.role_id == 2 %} selected="selected" {% endif %}>Admin</option>
+                        <option value="1" {% if user.role_id == 1 %} selected="selected" {% endif %}>Superadmin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-primary mr-2" type="submit">Save</button>
+            </div>
+        </div>
+ </form>
+</div>
+{% endblock %}

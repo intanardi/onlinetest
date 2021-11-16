@@ -1,0 +1,169 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/jquery-ui.structure.min.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/jquery-ui.theme.min.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/jquery-ui.min.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/bootstrap-clockpicker.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+{% block title %}Feniks Technology{% endblock %}
+<body>
+  {% block navbar %}
+  <div class="sidebar">
+    <div class="logo-details">
+      <img src="{{ url_for('static', filename='img/fenikslogo.png') }}" alt="" class="img-sidemenu-responsive" title="Phoenix">
+      <span class="logo_name">Phoenix</span>
+    </div>
+    <ul class="nav-links">
+      {% if (current_user.role.name.lower() == "superadmin") or (current_user.role.name.lower() == "admin") %}
+      <li>
+        <a href="{{ url_for('admin.index') }}">
+          <i class='fa fa-th' ></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="{{ url_for('admin.index') }}">Dashboard</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="icon-link">
+          <a href="#">
+            <i class='fa fa-database' ></i>
+            <span class="link_name sub-menu-name">Master</span>
+          </a>
+          <i class='fa fa-chevron-down fa-sm arrow' ></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Master</a></li>
+          <li><a href="{{ url_for('admin.data') }}">Admin</a></li>
+          <li><a href="{{ url_for('admin.candidate_data') }}">Candidate</a></li>
+          <li><a href="{{ url_for('admin.psikotest_type_data') }}">Psikotest</a></li>
+          <li><a href="{{ url_for('admin.examination_data') }}">Division Test</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="{{ url_for('admin.test_result') }}">
+          <i class="fa fa-file-o" aria-hidden="true"></i>
+          <span class="link_name">Test Result</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="{{ url_for('admin.index') }}">Test Result</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="icon-link">
+          <a href="#">
+            <i class='fa fa-cog' ></i>
+            <span class="link_name sub-menu-name">Setting</span>
+          </a>
+          <i class='fa fa-chevron-down fa-sm arrow' ></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Setting</a></li>
+          <li><a href="{{ url_for('admin.update_profile', id=current_user.id) }}">Update Profile</a></li>
+          <li><a href="{{ url_for('admin.admin_change_password', id=current_user.id) }}">Update Password</a></li>
+          <li><a href="{{ url_for('admin.data_global_setting') }}">Global Setting</a></li>
+        </ul>
+      </li>
+      <!-- <div class="profile-details">
+        <div class="profile-content">
+          <img src="{{url_for('static', filename='img/user/profile.jpg')}}" alt="profileImg">
+        </div>
+        <div class="name-job">
+          <div class="job">
+            {% if current_user.is_authenticated %}
+              {{ current_user.role.name }}
+            {% endif %}
+          </div>
+        </div>
+      </div> -->
+      {% else %}
+      <li>
+        <a href="{{ url_for('candidate.index') }}">
+          <i class='fa fa-home' ></i>
+          <span class="link_name">Home</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="{{ url_for('candidate.index') }}">Home</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="{{ url_for('candidate.test') }}">
+          <i class='fa fa-book' ></i>
+          <span class="link_name">Test</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="{{ url_for('candidate.test') }}">Test</a></li>
+        </ul>
+      </li>
+      {% endif %}
+      <li>
+        <a href="{{ url_for('auth.logout') }}">
+          <i class='fa fa-sign-out' ></i>
+          <span class="link_name">Logout</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+      </li>
+  </ul>
+  </div>
+  {% endblock %}
+  {% block content %}
+  <section class="home-section">
+    <div class="home-content">
+        <i class='fa fa-bars' ></i>
+        <div class="home-profile">
+          <span class="greeting-name">Hi,</span> <span class="profile-name">{{ current_user.fullname }}</span>
+        </div>
+    </div>
+    <div id="main">
+      {% block page_content %}{% endblock %}
+    </div>
+  </section>
+  {% endblock %}
+</body>
+</html>
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap-clockpicker.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script>
+
+        $( function() {
+        $( "#datepicker" ).datepicker();
+        $('.clockpicker').clockpicker();
+      } );
+      // sidebar handler
+      let arrow = document.querySelectorAll(".arrow");
+      for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e)=>{
+      let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+      arrowParent.classList.toggle("showMenu");
+        });
+      }
+      let submenu = document.querySelectorAll("li");
+      console.log(submenu)
+      for (var x = 0; x < submenu.length; x++) {
+          submenu[x].addEventListener("click", (e) => {
+          let submenuParent = e.target.parentElement.parentElement.parentElement;
+          submenuParent.classList.toggle("showMenu");
+        });
+      }
+      let sidebar = document.querySelector(".sidebar");
+      let sidebarBtn = document.querySelector(".fa-bars");
+      sidebarBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("hidden");
+      });
+      // end of sidebar handler
+    </script>
+{% endblock %}

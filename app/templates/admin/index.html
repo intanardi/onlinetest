@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Feniks Accounting{% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="content-header mt-3 mb-3">
+      <h4>Dashboard</h4>
+      <hr>
+    </div>
+    <div class="mt-3 mb-3">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="main-dashboard feniksGreen">
+                  <i class="fa fa-user"></i>
+                  <p>Active Admin</p>
+                  <h4>{{ active_admin }}</h4>
+                    <!-- <div class="col-md-6 col">
+                        <div class="admin-box feniksPurple text-center">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Total Administrator</p>
+                        <h5><strong>50</strong></h5>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="main-dashboard feniksBlue">
+                  <i class="fa fa-superpowers"></i>
+                  <p>Deleted Admin</p>
+                  <h4>{{ inactive_admin }}</h4>
+                    <!-- <div class="col-md-6">
+                        <div class="admin-box feniksBlue text-center">
+                            <i class="fa fa-superpowers"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Active Administrator</p>
+                        <h5><strong>1255</strong></h5>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="main-dashboard feniksYellow">
+                  <i class="fa fa-list"></i>
+                  <p>Total Candidate</p>
+                  <h4>{{ total_candidate }}</h4>
+                    <!-- <div class="col-md-6">
+                        <div class="admin-box feniksGuava text-center">
+                            <i class="fa fa-list"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Total Candidates</p>
+                        <h5><strong>71</strong></h5>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="main-dashboard feniksRed">
+                  <i class="fa fa-male"></i>
+                  <p>New Candidate</p>
+                  <h4>{{ new_candidate }}</h4>
+                    <!-- <div class="col-md-6">
+                        <div class="admin-box feniksYellow text-center">
+                            <i class="fa fa-male"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Active Candidate</p>
+                        <h5><strong>2</strong></h5>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

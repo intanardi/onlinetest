@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_content %}
+  <div class="main-content">
+    <div class="content-header">
+      <div class="row mt-3 mb-3">
+        <div class="col-6"><h3>PDF Detail List</h3></div>
+        <div class="col-6 float-right"><a href="{{ url_for('admin.psikotest_type_data') }}" class="btn btn-secondary float-right">Back</a></div>
+      </div>
+    </div>
+      <div class="main-header mt-4 mb-4">
+        <hr>
+        <div class="row">
+        <div class="col-md-6 col-sm-12 mt-2 mb-4">
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" value="{{ psikotest_type.name }}" disabled>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <a href="{{ url_for('admin.psikotest_add', id=psikotest_type.id) }}" class="btn btn-primary float-right">Add New</a>
+          </div>
+        </div>
+      </div>
+    <table class="table table-bordered">
+        <thead class="">
+            <tr>
+                <td>No</td>
+                <td>Instruction File</td>
+                <td>Test File</td>
+                <td>Duration</td>
+                <td>Alert</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for psikotest in psikotests %}
+            <tr>
+                <td>{{ loop.index + start }}</td>
+                <td><a href="{{ url_for('admin.download_result', filename=psikotest.instruction_filename) }}">instruction</a></td>
+                <td><a href="{{ url_for('admin.download_result', filename=psikotest.test_filename) }}">test</a></td>
+                <td>{{ psikotest.duration }}</td>
+                <td>{{ psikotest.alert }}</td>
+                <td>
+                    <a href="{{ url_for('admin.psikotest_edit', id=psikotest.id) }}" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-pencil"></i></a>
+                    <a href="" class="btn btn-danger btn-sm delete-dialog" target-id="{{ psikotest.id }}" title="Delete"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

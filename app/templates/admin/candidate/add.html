@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %} User List {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+        <div class="col-6"><h3>Add Candidate</h3></div>
+        <div class="col-6 float-right"><button class="btn btn-secondary backButton float-right">Back</button></div>
+    </div>
+    <div class="main-header">
+        {% for message in get_flashed_messages() %}
+            <span class="text-danger">{{ message }}</span>
+        {% endfor %}
+        <hr>
+    </div>
+    <form action="" method="POST">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fullname">Name</label>
+                    <input type="text" class="form-control" name="fullname">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username">
+                </div>
+                <div class="form-group">
+                    <label for="address">address</label>
+                    <input type="text" class="form-control" name="address">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" name="phone">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="roles">Division</label>
+                    <select class="form-control" name="division">
+                        {% for division in divisions %}
+                            <option value="{{division.id}}">{{ division.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="roles">Level</label>
+                    <select class="form-control" name="level">
+                        {% for level in levels %}
+                            <option value="{{level.id}}">{{ level.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="text" class="form-control" name="password" value="12345" readonly>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </div>
+ </form>
+</div>
+{% endblock %}

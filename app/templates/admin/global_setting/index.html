@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+  <div class="content-header mt-3 mb-3">
+    <h4>Global Setting Data</h4>
+  </div>
+    <div class="main-header mt-4 mb-4">
+      <div class="row">
+        <div class="col-md-6">
+          <form action="" method="POST">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search Name" name="keyword">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <a href="{{ url_for('admin.add_global_setting') }}" class="btn btn-primary float-right">Add New</a>
+        </div>
+      </div>
+    </div>
+    {% for message in get_flashed_messages() %}
+        <span class="text-danger">{{ message }}</span>
+    {% endfor %}
+    <table class="table table-bordered">
+        <thead class="">
+            <tr>
+                <td>Name</td>
+                <td>Setting Code</td>
+                <td>Variable</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gs in global_setting %}
+            <tr>
+                <td>{{ gs.name }}</td>
+                <td>{{ gs.setting_code }}</td>
+                <td>{{ gs.variable }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_global_setting', id=gs.id) }}" class="btn btn-success btn-sm" title="Edit Data"><i class="fa fa-pencil"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

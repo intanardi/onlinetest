@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %} User List {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+      <div class="col-6"><h3>Set Schedule</h3></div>
+      <div class="col-6"><button class="btn btn-secondary backButton float-right">Back</button></div>
+    </div>
+    <div class="main-header">
+      {% for message in get_flashed_messages() %}
+          <span class="text-danger">{{ message }}</span>
+      {% endfor %}
+      <hr>
+    </div>
+        <form action="" method="POST">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <label for="level-name">Name</label>
+                    <input type="text" class="form-control" value="{{ candidate.fullname }}" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="level-name">Division</label>
+                    <input type="text" class="form-control" value="{{ candidate.division.name }}" disabled>
+                  </div>
+                  <div class="form-group">
+                    <label for="level-name">Level</label>
+                    <input type="text" class="form-control" value="{{ candidate.level.name }}" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="schedule">Date Schedule</label>
+                        <input type="text" class="form-control datepick" name="date" id="datepicker" value="{{ schedule_date }}">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="schedule">Time Schedule</label>
+                        <div class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                          <input type="text" class="form-control clockpick" name="time" value="{{ schedule_time }}">
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" disabled>Save</button>
+                  </div>
+                </div>
+              </div>
+        </form>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+      var datevalue = "";
+      var timevalue = "";
+      $(".datepick").on('change', function(e){
+        console.log("a");
+        datevalue  = e.target.value;
+        if(datevalue != ""){
+          $('button').prop("disabled", false);
+        }
+      });
+      $(".clockpick").on('change', function(e){
+        console.log("b");
+        timevalue = e.target.value;
+        if(timevalue != ""){
+          $('button').prop("disabled", false);
+        }
+      });
+      
+    </script>
+{% endblock %}

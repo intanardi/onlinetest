@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="content-header mt-3 mb-3">
+      <h4>Soal {{user.division.name}} {{ user.level.name }} {% if status %}- {{examination_test.name}} {% endif %}</h4>
+      <hr>
+    </div>
+    <div class="row">
+      {% if msg_status %}
+        {% if status %}
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">This site is protected</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Click "Close" to open the test
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" id="trigerred-prtscreen">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2 mb-2 text-center">
+            <p>Gunakan microsoft word pada perangkat laptop anda, untuk mengisi jawaban soal - soal berikut! <br><b>Seluruh bagian Psikotest anda jawab dalam satu file.</b> <br> <b>Perhatikan halaman PDF!</b> jika lebih dari satu lembar, anda bisa klik Next untuk ke halaman selanjutnya, atau previous untuk ke halaman sebelumnya</p>
+              <div id="timer" class="mt-2 text-danger">&nbsp;</div>
+              <a href="{{url_for('candidate.main_test', id=target_candidate_id)}}" id="next_test" class="btn btn-success hide-element mt-2">Lanjutkan</a>
+              <div id="pdf_preview">
+                <div class="pagination-center">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li id="prev" class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#"><span> <span id="page_num"></span> of <span id="page_count"></span> </span></a></li>
+                      <li id="next" class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="background-viewer">
+                  <canvas id="pdf_canvas" width="800px" height="600px"></canvas>
+                </div>
+              </div>
+          </div>
+        {% else %}
+        <div class="col-12 mt-2 mb-2 text-center">
+          <p>Berikut ini merupakan Soal <b>{{ examination_test.name }}</b>. SIlahkan baca instruksi dengan teliti.<br>
+          Klik tombol <b>"Mulai Test"</b> untuk masuk kedalam test <b>{{ examination_test.name }}</b>.</p> <br>
+          <a href="{{ url_for('candidate.update_status_main_test', id=check_main_test.id) }}" class="btn btn-primary text-white" target_candidate_id = {{target_candidate_id}}>Mulai Test</a>
+        </div>
+        {% endif %}
+      {% else %}
+      <div class="col-12 mt-2 mb-2 text-center">
+        <p>Terima kasih telah melaksanakan psikotest.<br>Anda berada di halaman tes utama untuk posisi yang anda lamar.<br> Silahkan klik tombol <b>"Lanjutkan"</b></p>
+        <form action="" method="POST">
+          <a href="{{ url_for('candidate.save_main_test_detail') }}" class="btn btn-primary text-white">Lanjutkan</a>
+        </form>
+      </div>
+      {% endif %}
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.min.js"></script>
+    <script>
+      $(window).on('load', function() {
+          $('#exampleModal').modal('show');
+      });
+      $("#trigerred-prtscreen").click(function(){
+        document.addEventListener("keyup", function (e) {
+            if (e.keyCode == 44) {
+                console.log("printscreen")
+                stopPrntScr();
+            }
+        });
+        function stopPrntScr() {
+
+            var inpFld = document.createElement("input");
+            inpFld.setAttribute("value", ".");
+            inpFld.setAttribute("width", "0");
+            inpFld.style.height = "0px";
+            inpFld.style.width = "0px";
+            inpFld.style.border = "0px";
+            document.body.appendChild(inpFld);
+            inpFld.select();
+            document.execCommand("copy");
+            inpFld.remove(inpFld);
+        }
+        function AccessClipboardData() {
+            try {
+                window.clipboardData.setData('text', "Access   Restricted");
+            } catch (err) {
+            }
+        }
+        setInterval("AccessClipboardData()", 300);
+      });
+      document.addEventListener("keyup", function (e) {
+            if (e.keyCode == 44) {
+                console.log("printscreen")
+                stopPrntScr();
+            }
+        });
+        function stopPrntScr() {
+
+            var inpFld = document.createElement("input");
+            inpFld.setAttribute("value", ".");
+            inpFld.setAttribute("width", "0");
+            inpFld.style.height = "0px";
+            inpFld.style.width = "0px";
+            inpFld.style.border = "0px";
+            document.body.appendChild(inpFld);
+            inpFld.select();
+            document.execCommand("copy");
+            inpFld.remove(inpFld);
+        }
+       function AccessClipboardData() {
+            try {
+                window.clipboardData.setData('text', "Access   Restricted");
+            } catch (err) {
+            }
+        }
+        setInterval("AccessClipboardData()", 300);
+      var pdfDoc = null
+      var pageNum = 1
+      var pageRendering = false
+      var pageNumPending = null
+      var scale = 1.5
+      var canvas = document.getElementById('pdf_canvas')
+      var ctx = canvas.getContext('2d')
+
+      function renderPage(num){
+        pageRendering = true
+        pdfDoc.getPage(num).then((page)=> {
+          var viewport = page.getViewport({scale});
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+
+          var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          }
+
+          var renderTask = page.render(renderContext)
+          renderTask.promise.then(() => {
+            pageRendering = false
+            if (pageNumPending !== null) {
+              renderPage(pageNumPending)
+              pageNumPending = null
+            }
+          })
+
+        })
+
+        document.getElementById('page_num').textContent = num
+      }
+
+      function queueRenderPage(num){
+        if (pageRendering) {
+          pageNumPending = num
+        } else {
+          renderPage(num)
+        }
+      }
+
+      function onPrevPage() {
+        if (pageNum <= 1) {
+          return
+        }
+        pageNum--;
+        queueRenderPage(pageNum)
+      }
+
+      document.getElementById('prev').addEventListener('click', onPrevPage)
+
+      function onNextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+          return
+        }
+        pageNum++;
+        queueRenderPage(pageNum)
+      }
+
+      document.getElementById('next').addEventListener('click', onNextPage)
+
+      pdfjsLib.getDocument('{{ source_file }}').promise.then((doc) => {
+        pdfDoc = doc
+        document.getElementById('page_count').textContent = doc.numPages;
+        renderPage(pageNum)
+      })
+
+        var timer;
+        var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date();
+        var myDate = new Date('{{datetime_duration}}');
+        console.log(now)
+        console.log(myDate)
+        // Find the distance between now and the count down date
+        var distance = myDate - now;
+        console.log(distance)
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);  
+          
+        // If the count down is over, write some text 
+        if (distance < 0) {
+          $.ajax({
+          // url: '/signUpUser',
+          url: "update_flag_main_test/{{ check_main_test.id }}",
+          data: {
+                'name': 'update-flag'
+            },
+          type: 'POST',
+          success: function(response){
+            console.log(response);
+          },
+          error: function(error){
+            console.log(error);
+          }
+        });
+          clearInterval(x);
+          $("#timer").html("Waktu Telah Habis");
+          $("#pdf_preview").remove();
+          $("#next_test").removeClass("hide-element");
+        } else {
+          // Output the result in an element with id="demo"
+          document.getElementById("timer").innerHTML = hours + " Jam "
+          + minutes + " Menit " + seconds + " Detik ";
+          }
+        }, 1000);
+    </script>
+{% endblock %}

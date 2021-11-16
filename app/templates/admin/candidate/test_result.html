@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+  <div class="content-header mt-3 mb-3">
+    <h4>Candidate Test Result</h4>
+  </div>
+    <div class="main-header mt-4 mb-4">
+        <div class="row">
+          <div class="col-md-6">
+            <form action="" method="POST">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Name" name="keyword">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    <table class="table table-bordered">
+        <thead class="">
+              <tr>
+                  <td>No</td>
+                  <td>Name</td>
+                  <td>Division</td>
+                  <td>Level</td>
+                  <td>Psikotest</td>
+                  <td>Main Test</td>
+              </tr>
+        </thead>
+        <tbody>
+            {% for user in test_results %}
+              <tr>
+                  <td>{{ loop.index + start }}</td>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.division }}</td>
+                  <td>{{ user.level }}</td>
+                  <td><a href="{{url_for('admin.download_result', filename=user.filename_psikotest )}}" class="btn btn-sm btn-success">Download</a></td>
+                  <td><a href="{{url_for('admin.download_result', filename=user.filename_maintest )}}" class="btn btn-sm btn-success">Download</a></td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              {% if prev_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              {% endif %}
+              {% for num in range(num_pages) %}
+                <li class="page-item"><a class="page-link" href="data?page={{num+1}}">{{num+1}}</a></li>
+              {% endfor %}
+              {% if next_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

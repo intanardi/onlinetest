@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+        <div class="col-6"><h3>Add Division Test</h3></div>
+        <div class="col-6 float-right"><a href="{{ url_for('admin.examination_data') }}" class="btn btn-secondary float-right">Back</a></div>
+    </div>
+    <div class="main-header">
+        {% for message in get_flashed_messages() %}
+            <span class="text-danger">{{ message }}</span>
+        {% endfor %}
+        <hr>
+    </div>
+  <form action="" method="POST">
+        <div class="row">
+            <div class="col-md-6 col=sm-12">
+                <div class="form-group">
+                    <label for="address">Name</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="fullname">Division</label>
+                    <select class="form-control" name="division">
+                        {% for division in divisions %}
+                            <option value="{{ division.id }}">{{ division.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Level</label>
+                    <select class="form-control" name="level">
+                        {% for level in levels %}
+                            <option value="{{ level.id }}">{{ level.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="error"></label>
+                    <span id="error-message"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+ </form>
+</div>
+{% endblock %}

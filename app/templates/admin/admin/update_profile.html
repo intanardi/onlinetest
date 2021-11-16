@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+        <div class="col-6"><h3>Update Profile</h3></div>
+        <div class="col-6 float-right"><button class="btn btn-secondary backButton float-right">Back</button></div>
+    </div>
+    <div class="main-header mt-3 mb-3">
+        {% for message in get_flashed_messages() %}
+            <span class="text-danger">{{ message }}</span>
+        {% endfor %}
+        <hr>
+    </div>
+    <form action="" method="POST">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="fullname" value="{{ user.fullname }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="division">Division</label>
+                        <input type="text" class="form-control" name="" value="{{ user.division.name }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="level">Level</label>
+                        <input type="text" class="form-control" name="" value="{{ user.level.name }}" disabled>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="division">Email</label>
+                        <input type="text" class="form-control" name="email" value="{{ user.email }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Address</label>
+                        <input type="text" class="form-control" name="address" value="{{ user.address }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="division">Phone</label>
+                        <input type="text" class="form-control" name="phone" value="{{ user.phone }}">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="content-header mt-3 mb-3">
+      <h4>Test Anda Sudah Berakhir</h4>
+      <hr>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            Anda telah selesai melaksanakan seluruh Test. <br> 
+            Silahkan menunggu informasi kami selanjutnya. <br>
+            Terima Kasih atas partisipasi anda, salam sukses!
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+    </script>
+{% endblock %}

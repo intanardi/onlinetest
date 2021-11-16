@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block page_content %}
+  <div class="main-content">
+    <div class="content-header mt-3 mb-3">
+      <h4>Upload Hasil Tes Anda</h4>
+      <hr>
+    </div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-12">
+            <p class="text-center">
+              Ubahlah file doc anda menjadi PDF! <br>
+              Hanya file PDF yang dapat di upload!
+            </p>
+            <hr>
+            {% for message in get_flashed_messages() %}
+                <span class="text-danger text-center">{{ message }}</span>
+            {% endfor %}
+          </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="psikotest">Psikotest</label>
+                    <input type="file" class="form-control" name="psikotest">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="maintest">Main Test</label>
+                    <input type="file" class="form-control" name="maintest">
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.min.js"></script>
+    <script>
+      $(window).on('load', function() {
+          $('#exampleModal').modal('show');
+      }); 
+      $("#trigerred-prtscreen").click(function(){
+        $("#pdf_preview").removeClass("hide-element");
+        document.addEventListener("keyup", function (e) {
+          if (e.keyCode == 44) {
+              console.log("printscreen")
+              stopPrntScr();
+          }
+        });
+        function stopPrntScr() {
+            var inpFld = document.createElement("input");
+            inpFld.setAttribute("value", ".");
+            inpFld.setAttribute("width", "0");
+            inpFld.style.height = "0px";
+            inpFld.style.width = "0px";
+            inpFld.style.border = "0px";
+            document.body.appendChild(inpFld);
+            inpFld.select();
+            document.execCommand("copy");
+            inpFld.remove(inpFld);
+        }
+       function AccessClipboardData() {
+            try {
+                window.clipboardData.setData('text', "Access   Restricted");
+            } catch (err) {
+            }
+        }
+        setInterval("AccessClipboardData()", 300);
+      });
+      document.addEventListener("keyup", function (e) {
+        var keyCode = e.keyCode ? e.keyCode : e.which;
+            if (keyCode == 44) {
+                stopPrntScr();
+            }
+      });
+      function stopPrntScr() {
+        var inpFld = document.createElement("input");
+        inpFld.setAttribute("value", ".");
+        inpFld.setAttribute("width", "0");
+        inpFld.style.height = "0px";
+        inpFld.style.width = "0px";
+        inpFld.style.border = "0px";
+        document.body.appendChild(inpFld);
+        inpFld.select();
+        document.execCommand("copy");
+        inpFld.remove(inpFld);
+      }
+       function AccessClipboardData() {
+            try {
+                window.clipboardData.setData('text', "Access   Restricted");
+            } catch (err) {
+            }
+      }
+      setInterval("AccessClipboardData()", 10);
+    </script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %} bank question List {% endblock %}
+{% block page_content %}
+<div class="header-content">
+  <h4>Question Data</h4>
+</div>
+<div class="main-content">
+    <div class="main-header">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="level-name">Name</label>
+              <input type="text" class="form-control" value="{{ get_exam.name }}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="level-name">Division</label>
+              <input type="text" class="form-control" value="{{ division.name }}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="level-name">Level</label>
+              <input type="text" class="form-control" value="{{ level.name }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-12 mt-3 mb-3">
+            <hr>
+          </div>
+          <div class="col-md-6">
+            <form action="" method="POST">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Name" name="keyword">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <a href="{{ url_for('admin.question_add', id=get_exam.id  ) }}" class="btn btn-primary float-right">Add New</a>
+          </div>
+        </div>
+      </div>
+    {% for message in get_flashed_messages() %}
+        <span class="text-danger">{{ message }}</span>
+    {% endfor %}
+    <table class="table table-bordered">
+        <thead class="">
+            <tr>
+                <td>No</td>
+                <td>name</td>
+                <td>question</td>
+                <td>division</td>
+                <td>level</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in quetions %}
+            <tr>
+                <td>{{ loop.index + start }}</td>
+                <td>{{ question.name }}</td>
+                <td>{{ question.question }}</td>
+                <td>{{ question.division.name }}</td>
+                <td>{{ question.level.name }}</td>
+                <td>
+                    <a href="{{ url_for('admin.question_edit', id=question.id) }}" class="btn btn-success btn-sm">Edit</a>
+                    <a href="" class="btn btn-danger btn-sm question-delete-confirmation" target-id="{{ question.id }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="fixed-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              {% if prev_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              {% endif %}
+              {% for num in range(num_pages) %}
+                <li class="page-item"><a class="page-link" href="index?page={{num+1}}">{{num+1}}</a></li>
+              {% endfor %}
+              {% if next_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}

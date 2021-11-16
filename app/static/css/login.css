@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+body {
+  background: #fff;
+  font-family: "Poppins", sans-serif;
+}
+.feniksbackground {
+  background:#192a56;
+}
+.fixed-center{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /*bringyourownprefixes*/transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.login-form {
+  background:#fff;
+  width: 350px;
+  height: 450px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+}
+input[type="text"],  input[type="password"]{
+  font-size: 12px;
+}
+.login-header{
+  background-color: #E80012;
+  padding: 10px;
+  text-transform: capitalize;
+  border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -ms-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  font-size: 18px;
+}
+.login-body {
+  padding: 0 15px;
+}
+.login-footer{
+  background-color: #E80012;
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 10px;
+  border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  -ms-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+}
+.img-logo-responsive {
+  height: 80px;
+  width: 100px;
+}
+.login-img-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+.login-icon i {
+  font-size: 50px;
+  color: #0097e6;
+}
+.loginButton{
+  background-color: #192a56;
+  color: #fff;
+  transition: all 0.4s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  width: 100%;
+}
+.loginButton:hover{
+  opacity: 0.9;
+}
+.flash-message {
+  font-size: 12px;
+  margin: 0 5px;
+} 

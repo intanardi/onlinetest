@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %} {{ title }}{% endblock %}
+{% block page_content %}
+<div class="main-content">
+  <div class="row">
+    <div class="col-6"><h3>PDF List</h3></div>
+    <div class="col-6 float-right"><a href="{{ url_for('admin.examination_data') }}" class="btn btn-secondary float-right">Back</a></div>
+  </div>
+  <div class="content-header">
+    {% for message in get_flashed_messages() %}
+        <span class="text-danger">{{ message }}</span>
+    {% endfor %}
+    <hr>
+  </div>
+    <div class="main-header mt-4 mb-4">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+              <label for="level-name">Name</label>
+              <input type="text" class="form-control" value="{{ get_exam.name }}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="level-name">Division</label>
+              <input type="text" class="form-control" value="{{ division.name }}" disabled>
+            </div>
+            <div class="form-group">
+              <label for="level-name">Level</label>
+              <input type="text" class="form-control" value="{{ level.name }}" disabled>
+            </div>
+          </div>
+          <div class="col-md-12 mt-3 mb-3">
+            <hr>
+          </div>
+          <div class="col-md-6">
+          </div>
+          <div class="col-md-6">
+            <a href="{{ url_for('admin.question_pdf_add', id=get_exam.id  ) }}" class="btn btn-primary float-right">Add New</a>
+          </div>
+        </div>
+      </div>
+    {% for message in get_flashed_messages() %}
+        <span class="text-danger">{{ message }}</span>
+    {% endfor %}
+    <table class="table table-bordered">
+        <thead class="">
+            <tr>
+                <td>No</td>
+                <td>Name</td>
+                <td>File</td>
+                <td>Duration</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in quetions %}
+            <tr>
+                <td>{{ loop.index + start }}</td>
+                <td>{{ question.name }}</td>
+                <td><a href="{{ url_for('admin.open_pdf', filename=question.filename) }}">Preview PDF</a></td>
+                <td>{{ question.duration }}</td>
+                <td>
+                    <a href="{{ url_for('admin.question_pdf_edit', id=question.id) }}" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>
+                      <a href="" class="btn btn-danger btn-sm delete-pdf" target-id="{{ question.id }}" target-function= "admin.question_pdf_delete"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              {% if prev_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ prev_url }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              {% endif %}
+              {% for num in range(num_pages) %}
+                <li class="page-item"><a class="page-link" href="index?page={{num+1}}">{{num+1}}</a></li>
+              {% endfor %}
+              {% if next_url %}
+              <li class="page-item">
+                <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+      $(".delete-pdf",).on("click", function (e) {
+        e.preventDefault();
+        console.log("sadjasdhdsauhuh")
+        const getId = $(this).attr("target-id");
+        const column_element = $(this).parent();
+        console.log(column_element.parent())
+        const res = window.confirm("Are you sure you want to delete this data ?");
+        if(!res){
+            console.log(1);
+        }else {
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('admin.question_pdf_delete', id=getId) }}"+getId,
+                data : JSON.stringify({
+                    "subject:title":"Test Name",
+                    "sampleSize" : 10,
+                    "name" : "delete"
+                  }),
+                  dataType: "json",
+                  contentType: "application/json",
+                  error: function(e) {
+                    console.log("error");
+                  },
+                success: function (response) {
+                    column_element.parent().hide(250)
+                }
+            });
+            return false;
+        }
+          
+  });
+    </script>
+{% endblock %}

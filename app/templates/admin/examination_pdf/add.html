@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block page_content %}
+<div class="main-content">
+    <div class="row">
+        <div class="col-6"><h3>Add Pdf Test</h3></div>
+        <div class="col-6 float-right"><a href="{{ url_for('admin.question_pdf_data', id=examination_id) }}" class="btn btn-secondary float-right">Back</a></div>
+    </div>
+    <div class="main-header">
+        {% for message in get_flashed_messages() %}
+            <span class="text-danger">{{ message }}</span>
+        {% endfor %}
+        <hr>
+    </div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ exam_name }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="division">Division</label>
+                    <input type="text" class="form-control" name="level" value="{{ division.name }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="level">Level</label>
+                    <input type="text" class="form-control" name="level" value="{{ level.name }}" disabled>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="inputpdf">File</label>
+                    <input type="file" class="form-control" name="file">
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control duration-check" placeholder="Duration Time" name="minutes">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">Minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

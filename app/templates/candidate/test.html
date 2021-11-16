@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block page_content %}
+  <div class="main-content">
+    <div class="content-header mt-3 mb-5">
+      <h4>Candidate Test</h4>
+    </div>
+    <div class="text-center">
+      <!-- {{ status }} -->
+      {% if schedule is not none %}
+          <p>Anda sudah masuk ke waktu tes. Tes terdiri dari <b>Psikotest</b> kemudian dilanjutkan dengan <b>Tes utama,</b><br> berdasarkan divisi dan level yang anda lamar. Silahkan klik <b>"Mulai Test"</b>!</p>
+          {% if status == 00 %}
+            <a href="{{ url_for('candidate.save_test_detail') }}" class="btn btn-success">Mulai Test</a>
+          {% else %}
+            Test akan dimulai dalam : <div id="demo" class="text-danger"></div>
+          {% endif %}
+      {% else %}
+          <p style="color: red;">schedule not set yet <br> {{ message }} </p>
+      {% endif %}
+    </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+      var status = "{{ status }}";
+      console.log(status)
+      if (status === "0"){
+        console.log("success");
+      }
+      else if (status == "50") {
+        console.log("STOP")
+      }
+      else if (status != "30") {
+        var timer;
+        var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date();
+        var myDate = new Date('{{cand_date}}');
+        console.log(now)
+        console.log(myDate)
+        // Find the distance between now and the count down date
+        var distance = myDate - now;
+          
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);  
+          
+        // If the count down is over, write some text 
+        if (distance < 0) {
+          clearInterval(x);
+          window.location.href = '{{ url_for("candidate.test") }}';
+        } else {
+          // Output the result in an element with id="demo"
+          document.getElementById("demo").innerHTML = days + " Hari " + hours + " Jam "
+          + minutes + " Menit " + seconds + " Detik ";
+        }
+        }, 1000);
+      }
+    </script>
+{% endblock %}
